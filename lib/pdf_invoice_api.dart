@@ -3,7 +3,13 @@ import 'package:pdf/widgets.dart' as pw;
 import 'file_handle_api.dart';
 
 class PdfInvoiceApi {
-  Future generate({required List<List<dynamic>> tableData}) async {
+  Future generate({
+    required List<List<dynamic>> tableData,
+    required String? customerName,
+    required String customerMobile,
+    required String customerEmail,
+    required String customerWebsite,
+  }) async {
     final pdf = pw.Document();
 
     // final iconImage = (await rootBundle.load('assets/icon.png')).buffer.asUint8List();
@@ -14,25 +20,17 @@ class PdfInvoiceApi {
       'Price',
     ];
 
-    // final tableData = [
-    //   [
-    //     index,
-    //     description,
-    //     amount,
-    //   ],
-    // ];
-
     pdf.addPage(
       pw.MultiPage(
-        // header: (context) {
-        //   return pw.Text(
-        //     'Flutter Approach',
-        //     style: pw.TextStyle(
-        //       fontWeight: pw.FontWeight.bold,
-        //       fontSize: 15.0,
-        //     ),
-        //   );
-        // },
+        header: (context) {
+          return pw.Text(
+            'MENPO',
+            style: pw.TextStyle(
+              fontWeight: pw.FontWeight.bold,
+              fontSize: 17,
+            ),
+          );
+        },
         build: (context) {
           return [
             pw.Row(
@@ -43,32 +41,7 @@ class PdfInvoiceApi {
                 //   width: 72,
                 // ),
                 // pw.SizedBox(width: 1 * PdfPageFormat.mm),
-                pw.Column(
-                  mainAxisSize: pw.MainAxisSize.min,
-                  crossAxisAlignment: pw.CrossAxisAlignment.start,
-                  children: [
-                    pw.Text(
-                      'MENPO',
-                      style: pw.TextStyle(
-                        fontSize: 17.0,
-                        fontWeight: pw.FontWeight.bold,
-                      ),
-                    ),
-                    pw.RichText(
-                      text: pw.TextSpan(
-                        children: [
-                          pw.TextSpan(
-                            text: 'Address: ',
-                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-                          ),
-                          const pw.TextSpan(
-                              text:
-                                  '1739 Stenson Boulevard,\nPeterborough, Ontario - K9K 2E8.'),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+
                 pw.Spacer(),
                 pw.Column(
                   mainAxisSize: pw.MainAxisSize.min,
@@ -87,28 +60,6 @@ class PdfInvoiceApi {
                         ],
                       ),
                     ),
-                    pw.RichText(
-                      text: pw.TextSpan(
-                        children: [
-                          pw.TextSpan(
-                            text: 'Email: ',
-                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-                          ),
-                          const pw.TextSpan(text: 'menpoindia@gmail.com'),
-                        ],
-                      ),
-                    ),
-                    pw.RichText(
-                      text: pw.TextSpan(
-                        children: [
-                          pw.TextSpan(
-                            text: 'Phone: ',
-                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-                          ),
-                          const pw.TextSpan(text: '+17827781331'),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
               ],
@@ -119,7 +70,7 @@ class PdfInvoiceApi {
             pw.Text(
               'BILL TO:',
               style: const pw.TextStyle(
-                fontSize: 16.0,
+                fontSize: 14.0,
                 // decoration: TextDecoration.underline,
               ),
             ),
@@ -131,7 +82,7 @@ class PdfInvoiceApi {
                     text: 'Company Name: ',
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                   ),
-                  const pw.TextSpan(text: "Rajee Gas"),
+                  pw.TextSpan(text: customerName),
                 ],
               ),
             ),
@@ -142,7 +93,7 @@ class PdfInvoiceApi {
                     text: 'Mobile: ',
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                   ),
-                  const pw.TextSpan(text: "12345678900"),
+                  pw.TextSpan(text: customerMobile),
                 ],
               ),
             ),
@@ -153,7 +104,7 @@ class PdfInvoiceApi {
                     text: 'Email: ',
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                   ),
-                  const pw.TextSpan(text: "rajeegas@gmail.com"),
+                  pw.TextSpan(text: customerEmail),
                 ],
               ),
             ),
@@ -164,7 +115,7 @@ class PdfInvoiceApi {
                     text: 'Website: ',
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                   ),
-                  const pw.TextSpan(text: "rajeegas.com"),
+                  pw.TextSpan(text: customerWebsite),
                 ],
               ),
             ),
@@ -274,7 +225,7 @@ class PdfInvoiceApi {
               pw.Divider(),
               pw.SizedBox(height: 2 * PdfPageFormat.mm),
               pw.Text(
-                'Flutter Approach',
+                'Menpo',
                 style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
               ),
               pw.SizedBox(height: 1 * PdfPageFormat.mm),
@@ -286,7 +237,7 @@ class PdfInvoiceApi {
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                   ),
                   pw.Text(
-                    'Merul Badda, Anandanagor, Dhaka 1212',
+                    '1739 Stenson Boulevard, Peterborough, Ontario - K9K 2E8.',
                   ),
                 ],
               ),
@@ -299,7 +250,33 @@ class PdfInvoiceApi {
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                   ),
                   pw.Text(
-                    'flutterapproach@gmail.com',
+                    'menpoindia@gmail.com',
+                  ),
+                ],
+              ),
+              pw.SizedBox(height: 1 * PdfPageFormat.mm),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.center,
+                children: [
+                  pw.Text(
+                    'Phone: ',
+                    style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                  ),
+                  pw.Text(
+                    '+17827781331',
+                  ),
+                ],
+              ),
+              pw.SizedBox(height: 1 * PdfPageFormat.mm),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.center,
+                children: [
+                  pw.Text(
+                    'Website: ',
+                    style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                  ),
+                  pw.Text(
+                    'www.menpo.in',
                   ),
                 ],
               ),
