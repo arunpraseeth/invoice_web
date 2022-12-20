@@ -12,11 +12,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int itemcount = 1;
-
-  Set<List<dynamic>> bodySet = {};
-  Set<String> descriptionSet = {};
   String? description;
   String? amount;
+  Map<int, String> bodyMap = {};
+  List<List<dynamic>> tableData = [];
   PdfInvoiceApi pdfInvoiceApi = PdfInvoiceApi();
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
@@ -245,8 +244,10 @@ class _HomePageState extends State<HomePage> {
                               child: IconButton(
                                 onPressed: () {
                                   if (description != null && amount != null) {
-                                    descriptionSet.add(
-                                        "${index + 1},${description!},${amount!}");
+                                    bodyMap.addAll({
+                                      index + 1:
+                                          "${index + 1},${description!},${amount!}"
+                                    });
                                     setState(() {
                                       itemcount++;
                                     });
@@ -367,33 +368,24 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   onPressed: () async {
-                    descriptionSet.add("$itemcount,${description!},${amount!}");
-                    print(descriptionSet.toList());
-                    bodySet.add(descriptionSet.toList());
-                    bodySet.s
-                    print(bodySet.toList());
                     // ! generate pdf file
-                    // if (description.text.isNotEmpty && amount.text.isNotEmpty) {
-                    //   await pdfInvoiceApi.generate(
-                    //     tableData: [
-                    //       [
-                    //         "1",
-                    //         description.text.trim(),
-                    //         amount.text.trim(),
-                    //       ],
-                    //       [
-                    //         "1",
-                    //         description.text.trim(),
-                    //         amount.text.trim(),
-                    //       ],
-                    //     ],
-                    //     customerName:
-                    //         "${firstName.text.trim()} ${lastName.text.trim()}",
-                    //     customerMobile: mobileNumber.text.trim(),
-                    //     customerEmail: email.text.trim(),
-                    //     customerWebsite: website.text.trim(),
-                    //   );
-                    // }
+                    if (description != null && amount != null) {
+                      bodyMap.addAll(
+                          {itemcount: "$itemcount,${description!},${amount!}"});
+                      bodyMap.forEach(
+                        (key, value) async {
+                          tableData.add(value.split(","));
+                        },
+                      );
+                      await pdfInvoiceApi.generate(
+                        tableData: tableData,
+                        customerName:
+                            "${firstName.text.trim()} ${lastName.text.trim()}",
+                        customerMobile: mobileNumber.text.trim(),
+                        customerEmail: email.text.trim(),
+                        customerWebsite: website.text.trim(),
+                      );
+                    }
                   },
                 ),
               ),

@@ -3,6 +3,8 @@ import 'package:pdf/widgets.dart' as pw;
 import 'file_handle_api.dart';
 
 class PdfInvoiceApi {
+  int rawAmount = 0;
+  int actualAmount = 0;
   Future generate({
     required List<List<dynamic>> tableData,
     required String? customerName,
@@ -10,6 +12,10 @@ class PdfInvoiceApi {
     required String customerEmail,
     required String customerWebsite,
   }) async {
+    for (List<dynamic> element in tableData) {
+      actualAmount += int.parse(element.last);
+    }
+
     final pdf = pw.Document();
 
     // final iconImage = (await rootBundle.load('assets/icon.png')).buffer.asUint8List();
@@ -199,7 +205,7 @@ class PdfInvoiceApi {
                               ),
                             ),
                             pw.Text(
-                              '\$ 554.48',
+                              '\$ $actualAmount',
                               style: pw.TextStyle(
                                 fontWeight: pw.FontWeight.bold,
                               ),
