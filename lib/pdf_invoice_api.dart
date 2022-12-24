@@ -12,6 +12,7 @@ class PdfInvoiceApi {
     required String customerEmail,
     required String customerWebsite,
   }) async {
+    // print(tableData);
     for (List<dynamic> element in tableData) {
       actualAmount += int.parse(element.last);
     }
@@ -291,7 +292,9 @@ class PdfInvoiceApi {
         },
       ),
     );
-
+    rawAmount = 0;
+    actualAmount = 0;
+    tableData.clear();
     return FileHandleApi.saveWebDocument(pdf: pdf);
   }
 }

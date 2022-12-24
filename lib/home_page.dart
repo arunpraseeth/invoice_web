@@ -11,11 +11,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int itemcount = 1;
-  String? description;
-  String? amount;
-  Map<int, String> bodyMap = {};
+  // int itemcount = 1;
+
+  // String? description;
+  // String? amount;
+  int itemCount = 0;
+
   List<List<dynamic>> tableData = [];
+  List<TextEditingController> description = [TextEditingController()];
+  List<TextEditingController> amount = [TextEditingController()];
   PdfInvoiceApi pdfInvoiceApi = PdfInvoiceApi();
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
@@ -223,7 +227,7 @@ class _HomePageState extends State<HomePage> {
               ),
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: itemcount,
+                itemCount: description.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(top: heightPadding2),
@@ -243,13 +247,12 @@ class _HomePageState extends State<HomePage> {
                               alignment: Alignment.topRight,
                               child: IconButton(
                                 onPressed: () {
-                                  if (description != null && amount != null) {
-                                    bodyMap.addAll({
-                                      index + 1:
-                                          "${index + 1},${description!},${amount!}"
-                                    });
+                                  if (description[index].text.isNotEmpty &&
+                                      amount[index].text.isNotEmpty) {
                                     setState(() {
-                                      itemcount++;
+                                      description.add(TextEditingController());
+                                      amount.add(TextEditingController());
+                                      itemCount = index;
                                     });
                                   }
                                 },
@@ -266,11 +269,13 @@ class _HomePageState extends State<HomePage> {
                               alignment: Alignment.topRight,
                               child: IconButton(
                                 onPressed: () {
-                                  if (itemcount != 1) {
-                                    setState(() {
-                                      itemcount--;
-                                    });
-                                  }
+                                  setState(() {
+                                    description.removeAt(index);
+                                    amount.removeAt(index);
+                                    // [tableData].removeAt(index);
+
+                                    itemCount = index;
+                                  });
                                 },
                                 icon: const Icon(
                                   Icons.remove_circle,
@@ -305,12 +310,7 @@ class _HomePageState extends State<HomePage> {
                                       child: customTextField(
                                         context: context,
                                         hintText: "Description",
-                                        onChanged: (String? value) {
-                                          setState(() {
-                                            description = value!;
-                                          });
-                                          return null;
-                                        },
+                                        controller: description[index],
                                       ),
                                     ),
                                   ],
@@ -331,12 +331,7 @@ class _HomePageState extends State<HomePage> {
                                       child: customTextField(
                                         context: context,
                                         hintText: "Amount",
-                                        onChanged: (String? value) {
-                                          setState(() {
-                                            amount = value!;
-                                          });
-                                          return null;
-                                        },
+                                        controller: amount[index],
                                       ),
                                     ),
                                   ],
@@ -369,14 +364,12 @@ class _HomePageState extends State<HomePage> {
                   ),
                   onPressed: () async {
                     // ! generate pdf file
-                    if (description != null && amount != null) {
-                      bodyMap.addAll(
-                          {itemcount: "$itemcount,${description!},${amount!}"});
-                      bodyMap.forEach(
-                        (key, value) async {
-                          tableData.add(value.split(","));
-                        },
-                      );
+                    if (description.isNotEmpty && amount.isNotEmpty) {
+                      for (int i = 0; i < description.length; i++) {
+                        tableData
+                            .add([i + 1, description[i].text, amount[i].text]);
+                      }
+
                       await pdfInvoiceApi.generate(
                         tableData: tableData,
                         customerName:
@@ -386,13 +379,20 @@ class _HomePageState extends State<HomePage> {
                         customerWebsite: website.text.trim(),
                       );
                     }
+                    tableData.clear();
                   },
                 ),
               ),
+              const SizedBox(height: 30),
             ],
           ),
         ),
       ),
     );
   }
+
+  // List<Widget> textbox() {
+  //   text.add(value)
+  //   return text;
+  // }
 }
