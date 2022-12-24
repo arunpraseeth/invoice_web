@@ -270,11 +270,11 @@ class _HomePageState extends State<HomePage> {
                               child: IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    description.removeAt(index);
-                                    amount.removeAt(index);
-                                    // [tableData].removeAt(index);
-
-                                    itemCount = index;
+                                    if (index != 0) {
+                                      description.removeAt(index);
+                                      amount.removeAt(index);
+                                      itemCount = index;
+                                    }
                                   });
                                 },
                                 icon: const Icon(
