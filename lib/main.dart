@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: createMaterialColor(Colors.black),
       ),
-      // home: const HomePage(),
       home: const LoginPage(),
     );
   }

@@ -3,7 +3,7 @@ import 'package:invoice_web/utils/constants.dart';
 
 Widget customTextField({
   required BuildContext context,
-   TextEditingController? controller,
+  TextEditingController? controller,
   int? maxLength,
   TextInputType? textInputType,
   String? hintText,
@@ -18,9 +18,11 @@ Widget customTextField({
   void Function()? onTap,
   String? Function(String? value)? validator,
   String? Function(String)? onChanged,
+  String? Function(String)? onFieldSubmitted,
 }) {
   return TextFormField(
     onTap: onTap,
+    onFieldSubmitted: onFieldSubmitted,
     onChanged: onChanged,
     focusNode: focusnode,
     readOnly: readOnly ?? false,

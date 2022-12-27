@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:invoice_web/utils/constants.dart';
 import 'package:invoice_web/pdf_invoice_api.dart';
 import 'package:invoice_web/utils/custom_textfield.dart';
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80),
+        preferredSize: const Size.fromHeight(70),
         child: AppBar(
           title: const Padding(
             padding: EdgeInsets.only(top: 20),
@@ -154,10 +155,12 @@ class _HomePageState extends State<HomePage> {
                               width: size.width * 0.3,
                               child: customTextField(
                                 context: context,
+                                maxLength: 10,
                                 controller: mobileNumber,
                                 hintText: "Mobile Number",
                                 validator: (value) {
                                   if (value!.length < 3) {
+                                    print(value);
                                     return "Kindly enter customer mobile number";
                                   } else {
                                     return null;

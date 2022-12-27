@@ -20,6 +20,11 @@ MaterialColor createMaterialColor(Color color) {
   return MaterialColor(color.value, swatch);
 }
 
+//Regex
+String regexPattern =
+    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+
+//Sizes
 const double textSize = 16;
 const double heightPadding1 = 10;
 const double heightPadding2 = 20;
