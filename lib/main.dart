@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:invoice_web/auth/login.dart';
 import 'package:invoice_web/utils/constants.dart';
 import 'package:invoice_web/home_page.dart';
 
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: createMaterialColor(Colors.black),
       ),
-      home: const HomePage(),
+      // home: const HomePage(),
+      home: const LoginPage(),
     );
   }
 }

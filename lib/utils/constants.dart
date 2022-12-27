@@ -25,4 +25,5 @@ const double heightPadding1 = 10;
 const double heightPadding2 = 20;
 const Color blackColor = Colors.black;
 
-// const Color textfieldColor = Colors.black[54];
+//Assets
+const String loginPlaceholder = "assets/login/login.svg";
