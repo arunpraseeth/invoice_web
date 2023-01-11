@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:invoice_web/home_page.dart';
 import 'package:invoice_web/utils/constants.dart';
-
 import '../utils/custom_textfield.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,13 +13,27 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _key = GlobalKey<FormState>();
   bool obscureText = true;
+  final _key = GlobalKey<FormState>();
+  GoogleSignInAccount? _currentUser;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+      setState(() {
+        _currentUser = account;
+      });
+    });
+    googleSignIn.signInSilently();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final GoogleSignInAccount? user = _currentUser;
     return Scaffold(
       body: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -143,11 +157,43 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                 ),
+                const SizedBox(height: heightPadding2),
+                InkWell(
+                  // onTap: () => handleSignOut(),
+                  onTap: () => handleSignIn(),
+                  child: CircleAvatar(
+                    child: SvgPicture.asset(google),
+                  ),
+                ),
+                const SizedBox(height: heightPadding1),
+                Text(user == null ? "Signin" : "${user.displayName}"),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> handleSignIn() async {
+    try {
+      await googleSignIn.signIn().then((value) {
+        if (value != null) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+            (route) => false,
+          );
+        }
+      });
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> handleSignOut() async {
+    await googleSignIn.signOut();
   }
 }

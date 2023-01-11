@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
+///Colors
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];
   final swatch = <int, Color>{};
@@ -20,9 +22,12 @@ MaterialColor createMaterialColor(Color color) {
   return MaterialColor(color.value, swatch);
 }
 
+const primaryColor = Color(0xFF2697FF);
+const secondaryColor = Color(0xFF2A2D3E);
+const bgColor = Color(0xFF212332);
+
 //Regex
-String regexPattern =
-    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+String regexPattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 
 //Sizes
 const double textSize = 16;
@@ -32,3 +37,11 @@ const Color blackColor = Colors.black;
 
 //Assets
 const String loginPlaceholder = "assets/login/login.svg";
+const String google = "assets/login/google.svg";
+
+
+ GoogleSignIn googleSignIn = GoogleSignIn(
+    scopes: <String>[
+      'email',
+    ],
+  );

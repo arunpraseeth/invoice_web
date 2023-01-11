@@ -30,57 +30,56 @@ class PdfInvoiceApi {
     pdf.addPage(
       pw.MultiPage(
         header: (context) {
-          return pw.Text(
-            'MENPO',
-            style: pw.TextStyle(
-              fontWeight: pw.FontWeight.bold,
-              fontSize: 17,
+          return pw.Center(
+            child: pw.Text(
+              'MENPO',
+              style: pw.TextStyle(
+                fontWeight: pw.FontWeight.bold,
+                fontSize: 17,
+              ),
             ),
           );
         },
         build: (context) {
           return [
+            pw.SizedBox(height: 5 * PdfPageFormat.mm),
             pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
               children: [
                 // pw.Image(
                 //   pw.MemoryImage(iconImage),
                 //   height: 72,
                 //   width: 72,
                 // ),
-                // pw.SizedBox(width: 1 * PdfPageFormat.mm),
-
-                pw.Spacer(),
-                pw.Column(
-                  mainAxisSize: pw.MainAxisSize.min,
-                  crossAxisAlignment: pw.CrossAxisAlignment.start,
-                  children: [
-                    pw.RichText(
-                      text: pw.TextSpan(
-                        children: [
-                          pw.TextSpan(
-                            text: 'Date: ',
-                            style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-                          ),
-                          pw.TextSpan(
-                              text:
-                                  "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}"),
-                        ],
+                pw.Text(
+                  'BILL TO:',
+                  style: const pw.TextStyle(
+                    fontSize: 14.0,
+                    lineSpacing: 2,
+                    //       pw.shadows: [
+                    //   Shadow(
+                    //       color: Colors.red,
+                    //       offset: Offset(0, -5))
+                    // ],
+                    decoration: pw.TextDecoration.underline,
+                  ),
+                ),
+                pw.RichText(
+                  text: pw.TextSpan(
+                    children: [
+                      pw.TextSpan(
+                        text: 'Date: ',
+                        style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                       ),
-                    ),
-                  ],
+                      pw.TextSpan(
+                          text:
+                              "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}"),
+                    ],
+                  ),
                 ),
               ],
             ),
-            pw.SizedBox(height: 1 * PdfPageFormat.mm),
-            pw.Divider(),
-            pw.SizedBox(height: 1 * PdfPageFormat.mm),
-            pw.Text(
-              'BILL TO:',
-              style: const pw.TextStyle(
-                fontSize: 14.0,
-                // decoration: TextDecoration.underline,
-              ),
-            ),
+
             pw.SizedBox(height: 1 * PdfPageFormat.mm),
             pw.RichText(
               text: pw.TextSpan(
@@ -135,10 +134,13 @@ class PdfInvoiceApi {
             pw.Table.fromTextArray(
               headers: tableHeaders,
               data: tableData,
-              border: null,
-              headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-              headerDecoration:
-                  const pw.BoxDecoration(color: PdfColors.grey300),
+              // border: null,
+              headerAlignment: pw.Alignment.topLeft,
+              headerStyle: pw.TextStyle(
+                color: PdfColors.white,
+                fontWeight: pw.FontWeight.bold,
+              ),
+              headerDecoration: const pw.BoxDecoration(color: PdfColors.black),
               cellHeight: 30.0,
               cellAlignments: {
                 0: pw.Alignment.centerLeft,
@@ -146,7 +148,6 @@ class PdfInvoiceApi {
                 2: pw.Alignment.centerRight,
               },
             ),
-            pw.Divider(),
             pw.Container(
               alignment: pw.Alignment.centerRight,
               child: pw.Row(
@@ -157,43 +158,6 @@ class PdfInvoiceApi {
                     child: pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
-                        // pw.Row(
-                        //   children: [
-                        //     pw.Expanded(
-                        //       child: pw.Text(
-                        //         'Total',
-                        //         style: pw.TextStyle(
-                        //           fontWeight: pw.widget.FontWeight.bold,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //     pw.Text(
-                        //       '\$ 464',
-                        //       style: pw.TextStyle(
-                        //         fontWeight: pw.widget.FontWeight.bold,
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        // pw.Row(
-                        //   children: [
-                        //     pw.Expanded(
-                        //       child: pw.Text(
-                        //         'Vat 19.5 %',
-                        //         style: pw.TextStyle(
-                        //           fontWeight: pw.widget.FontWeight.bold,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //     pw.Text(
-                        //       '\$ 90.48',
-                        //       style: pw.TextStyle(
-                        //         fontWeight: pw.widget.FontWeight.bold,
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        // pw.Divider(),
                         pw.Row(
                           children: [
                             pw.Expanded(

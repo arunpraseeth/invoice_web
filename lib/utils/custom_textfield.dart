@@ -39,11 +39,11 @@ Widget customTextField({
       decoration: TextDecoration.none,
     ),
     decoration: InputDecoration(
-      fillColor: Colors.white,
+      // fillColor: Colors.white,
       hintText: hintText,
       hintStyle: const TextStyle(
         fontSize: 16,
-        color: Colors.black45,
+        color: Colors.white38,
         fontWeight: FontWeight.w400,
       ),
       filled: true,

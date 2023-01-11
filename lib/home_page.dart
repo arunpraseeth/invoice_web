@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:invoice_web/side_menu.dart';
 import 'package:invoice_web/utils/constants.dart';
 import 'package:invoice_web/pdf_invoice_api.dart';
 import 'package:invoice_web/utils/custom_textfield.dart';
@@ -24,11 +24,13 @@ class _HomePageState extends State<HomePage> {
   TextEditingController email = TextEditingController();
   TextEditingController website = TextEditingController();
   TextEditingController address = TextEditingController();
+  // DocumentReference documentReference = FirebaseFirestore.instance.collection('SellingRate').doc('Rates');
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: bgColor,
+      drawer: const SideMenu(),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
         child: AppBar(
@@ -51,210 +53,53 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(height: heightPadding2),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                  ),
-                  child: //Customer Name
-                      Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "First Name*",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: textSize,
-                              ),
-                            ),
-                            const SizedBox(height: heightPadding1),
-                            SizedBox(
-                              width: size.width * 0.3,
-                              child: customTextField(
-                                context: context,
-                                controller: firstName,
-                                hintText: "First Name",
-                                validator: (value) {
-                                  if (value!.length < 3) {
-                                    return "Kindly enter customer first name";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Second Name*",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: textSize,
-                              ),
-                            ),
-                            const SizedBox(height: heightPadding1),
-                            SizedBox(
-                              width: size.width * 0.3,
-                              child: customTextField(
-                                context: context,
-                                controller: lastName,
-                                hintText: "Last Name",
-                                validator: (value) {
-                                  if (value!.length < 3) {
-                                    return "Kindly enter customer last name";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                staticTextField(
+                  size,
+                  context,
+                  text1: "First Name",
+                  text2: "Second Name",
+                  controller1: firstName,
+                  controller2: lastName,
+                  validator1: (value) {
+                    if (value!.length < 3) {
+                      return "Kindly enter customer first name";
+                    } else {
+                      return null;
+                    }
+                  },
+                  validator2: (value) {
+                    if (value!.length < 3) {
+                      return "Kindly enter customer last name";
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
                 const SizedBox(height: heightPadding2),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                  ),
-                  child: //Customer Name
-                      Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Mobile Number*",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: textSize,
-                              ),
-                            ),
-                            const SizedBox(height: heightPadding1),
-                            SizedBox(
-                              width: size.width * 0.3,
-                              child: customTextField(
-                                context: context,
-                                maxLength: 10,
-                                controller: mobileNumber,
-                                hintText: "Mobile Number",
-                                validator: (value) {
-                                  if (value!.length < 3) {
-                                    print(value);
-                                    return "Kindly enter customer mobile number";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Email",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: textSize,
-                              ),
-                            ),
-                            const SizedBox(height: heightPadding1),
-                            SizedBox(
-                              width: size.width * 0.3,
-                              child: customTextField(
-                                context: context,
-                                controller: email,
-                                hintText: "Email",
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                staticTextField(
+                  size,
+                  context,
+                  text1: "Mobile Number",
+                  text2: "Email",
+                  controller1: mobileNumber,
+                  maxLength: 10,
+                  controller2: email,
+                  validator1: (value) {
+                    if (value!.length < 3) {
+                      return "Kindly enter customer mobile number";
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
                 const SizedBox(height: heightPadding2),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                  ),
-                  child: //Customer Name
-                      Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Website",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: textSize,
-                              ),
-                            ),
-                            const SizedBox(height: heightPadding1),
-                            SizedBox(
-                              width: size.width * 0.3,
-                              child: customTextField(
-                                context: context,
-                                controller: website,
-                                hintText: "Website",
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Address",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: textSize,
-                              ),
-                            ),
-                            const SizedBox(height: heightPadding1),
-                            SizedBox(
-                              width: size.width * 0.3,
-                              child: customTextField(
-                                context: context,
-                                controller: address,
-                                hintText: "Address",
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                staticTextField(
+                  size,
+                  context,
+                  text1: "Website",
+                  controller1: website,
+                  text2: "Address",
+                  controller2: address,
                 ),
                 ListView.builder(
                   shrinkWrap: true,
@@ -264,9 +109,9 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.only(top: heightPadding2),
                       child: Container(
                         width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: const BorderRadius.all(
+                        decoration: const BoxDecoration(
+                          color: secondaryColor,
+                          borderRadius: BorderRadius.all(
                             Radius.circular(10),
                           ),
                         ),
@@ -302,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                                 child: IconButton(
                                   onPressed: () {
                                     setState(() {
-                                      if (index != 0) {
+                                      if (description.length > 1) {
                                         description.removeAt(index);
                                         amount.removeAt(index);
                                         itemCount = index;
@@ -375,7 +220,7 @@ class _HomePageState extends State<HomePage> {
                                           hintText: "Amount",
                                           controller: amount[index],
                                           validator: (value) {
-                                            if (value!.length < 3) {
+                                            if (value!.isEmpty) {
                                               return "Kindly enter amount";
                                             } else {
                                               return null;
@@ -412,6 +257,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     onPressed: () async {
+                      // documentReference
+                      //     .collection('UltraTechCement')
+                      //     .add({"data": "arun"});
                       // ! generate pdf file
                       if (_key.currentState!.validate()) {
                         if (description.isNotEmpty && amount.isNotEmpty) {
@@ -438,6 +286,82 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Container staticTextField(
+    Size size,
+    BuildContext context, {
+    required String text1,
+    required String text2,
+    String? Function(String?)? validator1,
+    String? Function(String?)? validator2,
+    int? maxLength,
+    required TextEditingController? controller1,
+    required TextEditingController? controller2,
+  }) {
+    return Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        color: secondaryColor,
+        borderRadius: BorderRadius.all(
+          Radius.circular(10),
+        ),
+      ),
+      child: //Customer Name
+          Padding(
+        padding: const EdgeInsets.all(20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "$text1*",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: textSize,
+                  ),
+                ),
+                const SizedBox(height: heightPadding1),
+                SizedBox(
+                  width: size.width * 0.3,
+                  child: customTextField(
+                    context: context,
+                    controller: controller1,
+                    hintText: text1,
+                    validator: validator1,
+                    maxLength: maxLength,
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "$text2*",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: textSize,
+                  ),
+                ),
+                const SizedBox(height: heightPadding1),
+                SizedBox(
+                  width: size.width * 0.3,
+                  child: customTextField(
+                    context: context,
+                    controller: controller2,
+                    hintText: text2,
+                    validator: validator2,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:invoice_web/auth/login.dart';
-import 'package:invoice_web/utils/constants.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:invoice_web/home_page.dart';
+import 'package:invoice_web/utils/constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,10 +25,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: createMaterialColor(Colors.black),
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: bgColor,
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+            .apply(bodyColor: Colors.white),
+        canvasColor: secondaryColor,
       ),
-      home: const LoginPage(),
+      // home: const LoginPage(),
+      home: const HomePage(),
     );
   }
 }
