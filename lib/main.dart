@@ -1,19 +1,10 @@
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:invoice_web/home_page.dart';
 import 'package:invoice_web/utils/constants.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyAMmlPaoEAEGGsWxudIZwYHqxqzmW0PS28",
-      projectId: "invoice-f3d65",
-      messagingSenderId: "570465555594",
-      appId: "1:570465555594:web:287ec2acc4a2577ed80973",
-    ),
-  );
   runApp(const MyApp());
 }
 

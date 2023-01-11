@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 ///Colors
 MaterialColor createMaterialColor(Color color) {
@@ -38,10 +37,3 @@ const Color blackColor = Colors.black;
 //Assets
 const String loginPlaceholder = "assets/login/login.svg";
 const String google = "assets/login/google.svg";
-
-
- GoogleSignIn googleSignIn = GoogleSignIn(
-    scopes: <String>[
-      'email',
-    ],
-  );
