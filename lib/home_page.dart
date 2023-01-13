@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int itemCount = 0;
+  bool _value = false;
   final _key = GlobalKey<FormState>();
   List<List<dynamic>> tableData = [];
   List<TextEditingController> description = [TextEditingController()];
@@ -238,6 +239,36 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   },
+                ),
+                const SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      value: _value,
+                      onChanged: (value) {
+                        setState(() {
+                          _value = value!;
+                        });
+                      },
+                      activeColor: primaryColor,
+                    ),
+                    const SizedBox(width: 10),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          _value = !_value;
+                        });
+                      },
+                      child: Text(
+                        "Download as PDF",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: _value ? Colors.white : Colors.white38,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 30),
                 Center(
